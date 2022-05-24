@@ -1,5 +1,7 @@
 from importlib.resources import path
+from turtle import title
 from typing import Optional
+from unittest import result
 from pydantic import BaseModel
 from fastapi import FastAPI, Query, Path
 from fastapi import Body
@@ -13,6 +15,11 @@ class Person(BaseModel):
     last_name: str
     age: int
     color_pelo: Optional[str] = None
+
+class Location(BaseModel):
+    city: str
+    state: str
+
 
 @app.get('/')
 def home():
@@ -38,3 +45,20 @@ def show_person(
     person_id: int = Path(..., gt=0)
 ): 
     return {person_id: "existe"}
+
+#validations body
+
+@app.put("/person/{person_id}")
+def update(
+    person_id: int = Path(
+        ..., 
+        title="person_id",
+        description="this is the person id",
+        gt=0
+    ),
+    person: Person = Body(...),
+    location: Location = Body(...)
+):
+    resultado = person.dict()
+    resultado.update(location.dict())
+    return resultado
