@@ -51,8 +51,8 @@ def create_persona(person: Person = Body(...)):
 
 @app.get('/person/detail')
 def show_person(
-    name: Optional[str] = Query(None, min_length=1, max_length=50, title="Persona", description="nombre de la persona"),
-    age: int = Query(..., title="Edad", description="this is the person age"),
+    name: Optional[str] = Query(None, min_length=1, max_length=50, title="Persona", description="nombre de la persona", example="Alvaro"),
+    age: int = Query(..., title="Edad", description="this is the person age", example=25),
     
 ):
     return {name: age}
@@ -61,7 +61,7 @@ def show_person(
 
 @app.get('/person/detail/{person_id}')
 def show_person(
-    person_id: int = Path(..., gt=0)
+    person_id: int = Path(..., gt=0, example=123)
 ): 
     return {person_id: "existe"}
 
@@ -73,7 +73,8 @@ def update(
         ..., 
         title="person_id",
         description="this is the person id",
-        gt=0
+        gt=0,
+        example=123
     ),
     person: Person = Body(...)
     #location: Location = Body(...)
