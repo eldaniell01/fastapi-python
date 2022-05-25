@@ -4,7 +4,7 @@ from enum import Enum
 from typing import Optional
 from unittest import result
 from pydantic import BaseModel, Field
-from fastapi import FastAPI, Query, Path
+from fastapi import FastAPI, Query, Path, status
 from fastapi import Body
 
 
@@ -45,17 +45,27 @@ class Location(BaseModel):
     state: Ciudades = Field(...)
 
 
-@app.get('/')
+@app.get(
+    path='/', 
+    status_code=status.HTTP_200_OK
+    )
 def home():
     return {"hello": "World"}
 
-@app.post('/person/new', response_model=Person2)
+@app.post(
+        path='/person/new', 
+        response_model=Person2,
+        status_code=status.HTTP_201_CREATED
+        )
 def create_persona(person: Person = Body(...)):
     return person
 
 #validations
 
-@app.get('/person/detail')
+@app.get(
+    path='/person/detail',
+    status_code=status.HTTP_200_OK
+    )
 def show_person(
     name: Optional[str] = Query(None, min_length=1, max_length=50, title="Persona", description="nombre de la persona", example="Alvaro"),
     age: int = Query(..., title="Edad", description="this is the person age", example=25),
