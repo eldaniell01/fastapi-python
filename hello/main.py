@@ -19,24 +19,8 @@ class Pelo(Enum):
 class Ciudades(Enum):
     Guatemala ="Guatemala"
     Retalhuleu="Retalhuleu"
-class Person(BaseModel):
-    first_name: str = Field(..., min_length=1, max_length=50)
-    last_name: str = Field(..., min_length=1, max_length=50)
-    age: int = Field(..., gt=0, le=100)
-    color_pelo: Optional[Pelo] = Field(default=None)
-    password: str = Field(..., min_length=8)
-    class Config:
-        schema_extra={
-            "example":{
-                "first_name": "Daniel",
-                "last_name": "Montepeque",
-                "age": 25,
-                "color_pelo": "red",
-                "password": "12345869040"
-            }
-        }
 
-class Person2(BaseModel):
+class PersonBase(BaseModel):
     first_name: str = Field(..., min_length=1, max_length=50)
     last_name: str = Field(..., min_length=1, max_length=50)
     age: int = Field(..., gt=0, le=100)
@@ -49,9 +33,13 @@ class Person2(BaseModel):
                 "last_name": "Montepeque",
                 "age": 25,
                 "color_pelo": "red",
-                
+                "password": "12345869040"
             }
         }
+class Person(PersonBase):
+    password: str = Field(..., min_length=8)
+class Person2(PersonBase):
+    pass
 class Location(BaseModel):
     city: Ciudades = Field(...)
     state: Ciudades = Field(...)
