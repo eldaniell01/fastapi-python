@@ -15,16 +15,28 @@ class Pelo(Enum):
     black = 'negro'
     white = 'blanco'
     red = 'rojo'
+    
+class Ciudades(Enum):
+    Guatemala ="Guatemala"
+    Retalhuleu="Retalhuleu"
 class Person(BaseModel):
     first_name: str = Field(..., min_length=1, max_length=50)
     last_name: str = Field(..., min_length=1, max_length=50)
     age: int = Field(..., gt=0, le=100)
-    age2: int = Field(..., gt=0, le=100)
     color_pelo: Optional[Pelo] = Field(default=None)
+    class Config:
+        schema_extra={
+            "example":{
+                "first_name": "Daniel",
+                "last_name": "Montepeque",
+                "age": 25,
+                "color_pelo": "red"
+            }
+        }
 
 class Location(BaseModel):
-    city: str
-    state: str
+    city: Ciudades = Field(...)
+    state: Ciudades = Field(...)
 
 
 @app.get('/')
@@ -63,9 +75,9 @@ def update(
         description="this is the person id",
         gt=0
     ),
-    person: Person = Body(...),
-    location: Location = Body(...)
+    person: Person = Body(...)
+    #location: Location = Body(...)
 ):
-    resultado = person.dict()
-    resultado.update(location.dict())
-    return resultado
+    #resultado = person.dict()
+    #resultado.update(location.dict())
+    return person
