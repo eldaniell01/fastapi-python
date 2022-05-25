@@ -24,16 +24,34 @@ class Person(BaseModel):
     last_name: str = Field(..., min_length=1, max_length=50)
     age: int = Field(..., gt=0, le=100)
     color_pelo: Optional[Pelo] = Field(default=None)
+    password: str = Field(..., min_length=8)
     class Config:
         schema_extra={
             "example":{
                 "first_name": "Daniel",
                 "last_name": "Montepeque",
                 "age": 25,
-                "color_pelo": "red"
+                "color_pelo": "red",
+                "password": "12345869040"
             }
         }
 
+class Person2(BaseModel):
+    first_name: str = Field(..., min_length=1, max_length=50)
+    last_name: str = Field(..., min_length=1, max_length=50)
+    age: int = Field(..., gt=0, le=100)
+    color_pelo: Optional[Pelo] = Field(default=None)
+    
+    class Config:
+        schema_extra={
+            "example":{
+                "first_name": "Daniel",
+                "last_name": "Montepeque",
+                "age": 25,
+                "color_pelo": "red",
+                
+            }
+        }
 class Location(BaseModel):
     city: Ciudades = Field(...)
     state: Ciudades = Field(...)
@@ -43,7 +61,7 @@ class Location(BaseModel):
 def home():
     return {"hello": "World"}
 
-@app.post('/person/new')
+@app.post('/person/new', response_model=Person2)
 def create_persona(person: Person = Body(...)):
     return person
 
