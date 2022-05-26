@@ -57,7 +57,8 @@ def home():
 @app.post(
         path='/person/new', 
         response_model=Person2,
-        status_code=status.HTTP_201_CREATED
+        status_code=status.HTTP_201_CREATED,
+        tags=["Persona"]
         )
 def create_persona(person: Person = Body(...)):
     return person
@@ -66,7 +67,8 @@ def create_persona(person: Person = Body(...)):
 
 @app.get(
     path='/person/detail',
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
+    tags=["Persona"]
     )
 def show_person(
     name: Optional[str] = Query(None, min_length=1, max_length=50, title="Persona", description="nombre de la persona", example="Alvaro"),
@@ -77,7 +79,7 @@ def show_person(
 
 #validations 
 personas =[1, 2, 3, 4]
-@app.get('/person/detail/{person_id}')
+@app.get('/person/detail/{person_id}', tags=["Persona"])
 def show_person(
     person_id: int = Path(..., gt=0, example=123)
 ): 
@@ -90,7 +92,7 @@ def show_person(
 
 #validations body
 
-@app.put("/person/{person_id}")
+@app.put("/person/{person_id}", tags=["Persona"])
 def update(
     person_id: int = Path(
         ..., 
@@ -109,7 +111,8 @@ def update(
 @app.post(
     path="/login",
     response_model=Login2,
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_200_OK,
+    tags=["Persona"]
 )
 def login(
     username: str = Form(...),
