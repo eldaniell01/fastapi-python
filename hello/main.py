@@ -1,10 +1,12 @@
+from doctest import Example
+from email import message
 from importlib.resources import path
 from turtle import title
 from enum import Enum
 from typing import Optional
 from unittest import result
 from pydantic import BaseModel, Field
-from fastapi import FastAPI, Query, Path, status
+from fastapi import FastAPI, Form, Query, Path, status
 from fastapi import Body
 
 
@@ -44,6 +46,9 @@ class Location(BaseModel):
     city: Ciudades = Field(...)
     state: Ciudades = Field(...)
 
+class Login2(BaseModel):
+    user: str = Field(..., max_length=20, example="eldaniell01")
+    message: str = Field(default="login completado")
 
 @app.get(
     path='/', 
@@ -98,3 +103,15 @@ def update(
     #resultado = person.dict()
     #resultado.update(location.dict())
     return person
+
+@app.post(
+    path="/login",
+    response_model=Login2,
+    status_code=status.HTTP_200_OK
+)
+def login(
+    username: str = Form(...),
+    password: str = Form(...)
+):
+    return Login2(user=username)
+    
