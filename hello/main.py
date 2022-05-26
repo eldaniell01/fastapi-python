@@ -5,8 +5,8 @@ from turtle import title
 from enum import Enum
 from typing import Optional
 from unittest import result
-from pydantic import BaseModel, Field
-from fastapi import FastAPI, Form, Query, Path, status
+from pydantic import BaseModel, EmailStr, Field
+from fastapi import Cookie, FastAPI, Form, Header, Query, Path, status
 from fastapi import Body
 
 
@@ -114,4 +114,28 @@ def login(
     password: str = Form(...)
 ):
     return Login2(user=username)
-    
+
+@app.post(
+    path="/contact", 
+    status_code=status.HTTP_200_OK
+)
+def contact(
+    name: str = Form(
+        ..., 
+        max_length=20,
+        min_length=1
+    ),
+    name2: str = Form(
+        ..., 
+        max_length=20,
+        min_length=1
+    ),
+    email: EmailStr = Form(...),
+    message: str = Form(
+        ..., 
+        min_length=20
+    ), 
+    userna: Optional[str] = Header(default=None),
+    ads: Optional[str] = Cookie(default=None)
+):
+    return userna
