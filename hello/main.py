@@ -1,12 +1,9 @@
-from doctest import Example
-from email import message
-from importlib.resources import path
-from turtle import title
+
 from enum import Enum
 from typing import Optional
-from unittest import result
+
 from pydantic import BaseModel, EmailStr, Field
-from fastapi import Cookie, FastAPI, File, Form, Header, Query, Path, UploadFile, status
+from fastapi import Cookie, FastAPI, File, Form, Header, Query, Path, UploadFile, status, HTTPException
 from fastapi import Body
 
 
@@ -79,11 +76,16 @@ def show_person(
     return {name: age}
 
 #validations 
-
+personas =[1, 2, 3, 4]
 @app.get('/person/detail/{person_id}')
 def show_person(
     person_id: int = Path(..., gt=0, example=123)
 ): 
+    if person_id not in personas:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="no existe"
+        )
     return {person_id: "existe"}
 
 #validations body
