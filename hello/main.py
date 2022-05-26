@@ -6,7 +6,7 @@ from enum import Enum
 from typing import Optional
 from unittest import result
 from pydantic import BaseModel, EmailStr, Field
-from fastapi import Cookie, FastAPI, Form, Header, Query, Path, status
+from fastapi import Cookie, FastAPI, File, Form, Header, Query, Path, UploadFile, status
 from fastapi import Body
 
 
@@ -139,3 +139,15 @@ def contact(
     ads: Optional[str] = Cookie(default=None)
 ):
     return userna
+
+@app. post(
+    path="/post-image"
+)
+def imagen(
+    image: UploadFile = File(...)
+):
+    return {
+        "Filename":image.filename,
+        "Format":image.content_type,
+        "Size(kb)": round(len(image.file.read())/1024, ndigits=2)
+    }
