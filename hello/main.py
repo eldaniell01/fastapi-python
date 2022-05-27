@@ -58,9 +58,18 @@ def home():
         path='/person/new', 
         response_model=Person2,
         status_code=status.HTTP_201_CREATED,
-        tags=["Persona"]
+        tags=["Persona"],
+        summary="Crear cliente"
         )
 def create_persona(person: Person = Body(...)):
+    """Crear persona 
+    esta path operation crea una persona
+    Args:
+        person (Person, optional): . Defaults to Body(...).
+
+    Returns:
+        _type_: _description_
+    """
     return person
 
 #validations
@@ -68,7 +77,8 @@ def create_persona(person: Person = Body(...)):
 @app.get(
     path='/person/detail',
     status_code=status.HTTP_200_OK,
-    tags=["Persona"]
+    tags=["Persona"],
+    deprecated=True
     )
 def show_person(
     name: Optional[str] = Query(None, min_length=1, max_length=50, title="Persona", description="nombre de la persona", example="Alvaro"),
