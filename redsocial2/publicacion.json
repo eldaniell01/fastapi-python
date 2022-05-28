@@ -1,0 +1,15 @@
+[
+    {
+        "red_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "content": "este es un mensaje de prueba nada más",
+        "create_con": "2022-05-28 10:07:43.939407",
+        "update_con": "2022-05-28 16:08:57.169000+00:00",
+        "by": {
+            "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "email": "user@example.com",
+            "first_name": "Daniel",
+            "last_name": "Montepeque",
+            "birth_date": "2022-05-28"
+        }
+    }
+]
