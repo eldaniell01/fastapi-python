@@ -1,0 +1,3 @@
+[submodule "red_social2"]
+	path = red_social2
+	url = https://github.com/eldaniell01/fastapi-python.git
