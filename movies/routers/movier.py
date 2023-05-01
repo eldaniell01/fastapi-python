@@ -40,7 +40,11 @@ def get_categoria(category: str = Query(min_length=4, max_length=15)) -> List[Mo
 @movie_router.put('/movies/{id}', tags=['Modificar'], response_model=dict, status_code=200)
 def update_movie(id: int, movie: Movie)-> dict:
     db = session()
-    MovieService(db).update_movie(movie)
+    result = MovieService(db).update_movie(id)
+    if not result:
+        return JSONResponse(status_code=404, content={'menssage': 'no encontrado'})
+    MovieService(db).update_movie(id, movie)
+    
     return JSONResponse(status_code=200, content={'message' : 'se modifico la pelicula'})
         
 @movie_router.delete('/movies/{id}', tags=['Eliminar'], response_model=dict, status_code=200)
@@ -52,9 +56,5 @@ def delete_movie(id : int) -> dict:
 @movie_router.post('/movies', tags=['Registrar pelicula'], response_model=dict, status_code=201)
 def create_movie(movie: Movie) -> dict:
     db = session()
-    result = MovieService(db).update_movie(id)
-    if not result:
-        return JSONResponse(status_code=404, content={'menssage': 'no encontrado'})
-    MovieService(db).update_movie(id, movie)
-    
+    MovieService(db).create_movie(movie)
     return JSONResponse(status_code=201, content={'message' : 'se registro la pelicula'})

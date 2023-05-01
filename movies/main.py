@@ -8,11 +8,25 @@ from models.movie import Movie as mov
 from middlewares.error_handler import errorhandler
 from routers.movier import movie_router
 from routers.userl import user_login
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
 app.title = "Aplicacion de peliculas"
 app.version = "0.0.1"
 
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.add_middleware(errorhandler)
 app.include_router(movie_router)
 app.include_router(user_login)
